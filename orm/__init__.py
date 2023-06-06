@@ -5,11 +5,23 @@ from flask_sqlalchemy import SQLAlchemy
 from api import app
 import os
 import sqlite3
+import yaml
+
+_defaultConfig_ = {
+    "sqlitePath": "/var/lib/reservationDB.db"
+}
 
 
 def _loadDBConfig():
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    sqlitePath = BASE_DIR + '\\db.db'
+    config = _defaultConfig_
+    try:
+        with open("config.yaml", "r") as file:
+            externalConfig = yaml.load(file, Loader=yaml.SafeLoader) or {}
+            config.update(externalConfig)
+    except FileNotFoundError:
+        print("config.yaml not found")
+
+    sqlitePath = config["sqlitePath"]
     if not os.path.exists(sqlitePath):
         # Create sqlite db
         with open("data/schema.sql", "r") as f:
