@@ -16,7 +16,7 @@ class Meetings(DataModel, DB.Model):
     start_time = DB.Column("start_time", DB.VARCHAR(50), default="")
     duration = DB.Column("duration", INTEGER(10), default=3600)
     previd = DB.Column("previd", INTEGER(11), default="")
-    password = DB.Column("password", INTEGER(11), default="")
+    password = DB.Column("password", DB.VARCHAR(50), default="")
 
     _dictmapping_ = (Id(),
                      Text("name", flags="patch"),
