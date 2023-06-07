@@ -8,7 +8,7 @@ import sqlite3
 import yaml
 
 _defaultConfig_ = {
-    "sqlitePath": "/var/lib/reservationDB.db"
+    "sqlitePath": "/var/lib/jitsi-reservation-api/reservationDB.db"
 }
 
 
