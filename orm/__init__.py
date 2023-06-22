@@ -8,7 +8,9 @@ import sqlite3
 import yaml
 
 _defaultConfig_ = {
-    "sqlitePath": "/var/lib/jitsi-reservation-api/reservationDB.db"
+    "sqlitePath": "/var/lib/jitsi-reservation-api/reservationDB.db",
+    "autodelete": False,
+    "deleteStandoff": 3600
 }
 
 
@@ -31,10 +33,11 @@ def _loadDBConfig():
         for statement in schema.split(";"):
             cur.execute(statement)
         print("SQLite created")
-    return "sqlite:///{sqlitePath}".format(sqlitePath=sqlitePath)
+    return config
 
 
-DB_uri = _loadDBConfig()
+Config = _loadDBConfig()
+DB_uri = "sqlite:///{sqlitePath}".format(sqlitePath=Config["sqlitePath"])
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_uri
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 DB = SQLAlchemy(app)
