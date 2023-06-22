@@ -11,7 +11,8 @@ _defaultConfig_ = {
     "sqlitePath": "/var/lib/jitsi-reservation-api/reservationDB.db",
     "autodelete": False,
     "deleteStandoff": 3600,
-    "max_occupants": 10
+    "max_occupants": 10,
+    "lobby": True
 }
 
 

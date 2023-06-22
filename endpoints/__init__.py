@@ -99,6 +99,7 @@ def defaultDetailQuery(Model, ID):
     if obj["id"] != obj["previd"]:
         obj["previd"] = obj["id"]
     obj["max_occupants"] = Config["max_occupants"]
+    obj["lobby"] = Config["lobby"]
     return jsonify(obj)
 
 
