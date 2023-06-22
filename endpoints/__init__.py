@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from orm import DB
 from datetime import datetime, timedelta
 import re
+from orm import Config
 
 
 def defaultListQuery(Model):
@@ -97,6 +98,7 @@ def defaultDetailQuery(Model, ID):
     obj = obj.todict(1)
     if obj["id"] != obj["previd"]:
         obj["previd"] = obj["id"]
+    obj["max_occupants"] = Config["max_occupants"]
     return jsonify(obj)
 
 

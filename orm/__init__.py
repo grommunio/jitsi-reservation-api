@@ -10,7 +10,8 @@ import yaml
 _defaultConfig_ = {
     "sqlitePath": "/var/lib/jitsi-reservation-api/reservationDB.db",
     "autodelete": False,
-    "deleteStandoff": 3600
+    "deleteStandoff": 3600,
+    "max_occupants": 10
 }
 
 
