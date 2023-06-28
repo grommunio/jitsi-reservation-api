@@ -21,7 +21,6 @@ def getMeeting(conflict_id):
 
 @app.route('/conference/<int:conflict_id>', methods=['DELETE'])
 def deleteMeeting(conflict_id):
-    print(Config)
     delete = request.args["delete"] if "delete" in request.args else False
     query = Meetings.query.filter(Meetings.id == conflict_id)
     query = Meetings.optimize_query(query, 1)

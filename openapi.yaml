@@ -1,0 +1,186 @@
+openapi: 3.0.0
+info:
+  title: Jitsi reservation
+  version: 1.0.0
+servers:
+  - url: /api/v1
+    description: Default deployment path
+
+
+paths:
+  /conference:
+    summary: Conference management
+    post:
+      summary: Create conference
+      tags:
+        - Conference
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the conference
+                mail_owner:
+                  type: string
+                  description: Mail of the moderator
+                start_time:
+                  type: string
+                  description: Start time of the meeting in YYYY-MM-DDThh:mm:ss.000Z format
+                duration:
+                  type: integer
+                  description: Duration of the meeting in minutes
+                password:
+                  type: string
+                  description: Password for the meeting
+      responses:
+        '201':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meeting'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /conference/{meetingID}:
+    summary: Meetings
+    get:
+      summary: Get meeting details
+      parameters:
+        - $ref: '#/components/parameters/meetingID'
+      tags:
+        - Conference
+      responses:
+        '200':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meeting'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete meeting
+      parameters:
+        - $ref: '#/components/parameters/meetingID'
+        - name: delete
+          in: query
+          required: false
+          schema:
+            type: boolean
+      tags:
+        - Conference
+      responses:
+        '200':
+          description: Meeting successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  parameters:
+    meetingID:
+      name: meetingID
+      in: path
+      required: true
+      description: ID of the meeting
+      schema:
+        type: string
+
+
+  schemas:
+    meeting:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID of the meeting
+        duration:
+          type: number
+          description: Duration of the meeting
+        mail_owner:
+          type: string
+          description: Mail of the moderator
+        name:
+          type: string
+          description: Name of the meeting
+        start_time:
+          type: string
+          description: Start time of the meeting in ISO-8601 format
+        password:
+          type: string
+          description: Password for the meeting
+        previd:
+          type: string
+          description: Previous ID, used for internal control
+
+
+  responses:
+    ServerError:
+      description: An error occured while processing the request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: String representation of the exception
+    InvalidRequest:
+      description: Validation of input parameters failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              errors:
+                type: array
+                description: List of errors encountered during validation
+                items:
+                  type: string
+    Conflict:
+      description: Meeting time overlap
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    DatabaseError:
+      description: The database query failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Description of the error
+    NotFound:
+      description: The requested resource could not be found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+tags:
+  - name: Conference
+    description: Endpoints to view/manage conferences
