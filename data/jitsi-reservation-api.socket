@@ -1,0 +1,11 @@
+[Unit]
+Description=Socket for jitsi reservation api
+
+[Socket]
+ListenStream=/run/grommunio/jitsi-reservation-api.socket
+SocketUser=grommunio
+SocketGroup=nginx
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

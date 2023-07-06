@@ -1,0 +1,18 @@
+[Unit]
+Description=jitsi reservation api
+After=jitsi-reservation-api.socket
+Requires=jitsi-reservation-api.socket
+
+[Service]
+WorkingDirectory=/usr/share/jitsi-reservation-api
+ExecStart=/usr/sbin/uwsgi --ini /usr/share/jitsi-reservation-api/api-config.ini
+User=grommunio
+Group=nginx
+SupplementaryGroups=grommunio
+Restart=on-failure
+KillSignal=SIGINT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
