@@ -32,7 +32,7 @@ paths:
                   description: Start time of the meeting in YYYY-MM-DDThh:mm:ss.000Z format
                 duration:
                   type: integer
-                  description: Duration of the meeting in minutes
+                  description: Duration of the meeting in seconds
                 password:
                   type: string
                   description: Password for the meeting
